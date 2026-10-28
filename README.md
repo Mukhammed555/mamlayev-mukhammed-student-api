@@ -2,7 +2,7 @@
 
 Student CRUD REST API built with Spring Boot, PostgreSQL, Docker and Jenkins.
 
-> Project status: initial version
+> Project status: documented by Mukhammed Mamlayev — see API endpoints and change log below
 
 **Author:** Mukhammed Mamlayev
 **Course:** DevOps — midterm project
