@@ -2,7 +2,7 @@
 
 Student CRUD REST API built with Spring Boot, PostgreSQL, Docker and Jenkins.
 
-> Project status: CRUD complete (create, read, update, delete) — maintained by Mukhammed Mamlayev
+> Project status: CRUD complete (create, read, update, delete) and documented — maintained by Mukhammed Mamlayev
 
 **Author:** Mukhammed Mamlayev
 **Course:** DevOps — midterm project
