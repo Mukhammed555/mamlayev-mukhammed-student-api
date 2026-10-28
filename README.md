@@ -40,6 +40,7 @@ mamlayev-mukhammed-student-api/
 ├── logs/         System report log and log analysis
 ├── backups/      README backup
 ├── src/          Spring Boot source code and tests
+├── jenkins/      Local Jenkins with Docker CLI (for the CI part)
 ├── Dockerfile
 ├── docker-compose.yml
 ├── Jenkinsfile
@@ -52,3 +53,34 @@ mamlayev-mukhammed-student-api/
 ```bash
 ./gradlew test
 ```
+
+## Run with Docker Compose
+
+```bash
+cp .env.example .env          # then set your own POSTGRES_PASSWORD
+docker compose up -d --build
+curl http://localhost:8080/api/info
+```
+
+The application reaches PostgreSQL at `jdbc:postgresql://db:5432/...` — `db` is the
+Compose service name, resolved by Docker's internal DNS on the
+`mamlayev-mukhammed-net` network. Data is kept in the named volume
+`mamlayev-mukhammed-pgdata`.
+
+Docker image: `mamlayev-mukhammed-student-api:v1.0-mamlayev-mukhammed`
+
+## CI with Jenkins
+
+Jenkins job: `Mamlayev_Mukhammed_Student_API` — pipeline stages
+Checkout → Build → Test → Docker Build → Verify (see `Jenkinsfile`).
+A local Jenkins that can run Docker is started with:
+
+```bash
+docker compose -f jenkins/docker-compose.jenkins.yml up -d --build
+```
+
+## Security
+
+`.env` holds real passwords and is excluded by `.gitignore`; only `.env.example`
+with placeholder values is committed. Jenkins keeps the GitHub token in
+Jenkins Credentials, never in the repository.
