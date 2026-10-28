@@ -1,0 +1,25 @@
+# --- Secrets: never commit real credentials ---
+.env
+*.env
+!.env.example
+
+# --- Gradle / build output ---
+.gradle/
+build/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+
+# --- IDE files ---
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- Generated logs (each run creates new ones) ---
+logs/*.log
+logs/*.txt
+!logs/.gitkeep

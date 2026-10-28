@@ -1,0 +1,55 @@
+// Build script of mamlayev-mukhammed-student-api
+// Author: Mukhammed Mamlayev
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.mamlayev'
+version = '1.0.0'
+description = 'Student CRUD API by Mukhammed Mamlayev'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'com.h2database:h2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+// Writes META-INF/build-info.properties so the app can report its version.
+springBoot {
+    buildInfo()
+}
+
+// Only the executable Spring Boot jar is needed, with a fixed name for Docker.
+tasks.named('jar') {
+    enabled = false
+}
+
+tasks.named('bootJar') {
+    archiveFileName = 'app.jar'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat 'full'
+    }
+}
