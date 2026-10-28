@@ -1,0 +1,25 @@
+# Local Jenkins for the midterm - author: Mukhammed Mamlayev
+# Start : docker compose -f jenkins/docker-compose.jenkins.yml up -d --build
+# Open  : http://localhost:8081
+# Admin password: docker exec mamlayev-mukhammed-jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+name: mamlayev-mukhammed-jenkins
+
+services:
+  jenkins:
+    build: .
+    image: mamlayev-mukhammed-jenkins:lts
+    container_name: mamlayev-mukhammed-jenkins
+    # root is used only so the container can talk to the mounted Docker socket.
+    # Acceptable for a local lab; on a real server use a dedicated agent instead.
+    user: root
+    restart: unless-stopped
+    ports:
+      - "8081:8080"    # Jenkins UI (8080 on the host is used by the Student API)
+      - "50000:50000"  # inbound agents
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  jenkins_home:
+    name: mamlayev-mukhammed-jenkins-home
