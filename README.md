@@ -22,7 +22,15 @@ Student CRUD REST API built with Spring Boot, PostgreSQL, Docker and Jenkins.
 | GET    | `/api/students`       | List all students       |
 | GET    | `/api/students/{id}`  | Get one student by ID   |
 | POST   | `/api/students`       | Create a student        |
+| PUT    | `/api/students/{id}`  | Update a student        |
 | DELETE | `/api/students/{id}`  | Delete a student        |
+
+## Change log
+
+- **Update operation** (branch `feature/mamlayev-mukhammed-crud`, by Mukhammed Mamlayev):
+  added `PUT /api/students/{id}`. It validates the request body, returns
+  `404 Not Found` for an unknown ID and `409 Conflict` when the new e-mail
+  already belongs to another student. Covered by three new integration tests.
 
 ## Project structure
 
