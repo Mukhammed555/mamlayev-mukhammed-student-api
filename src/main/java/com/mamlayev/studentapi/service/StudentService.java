@@ -50,6 +50,24 @@ public class StudentService {
         return StudentResponse.from(repository.save(student));
     }
 
+    /**
+     * Update operation (added by Mukhammed Mamlayev on feature/mamlayev-mukhammed-crud).
+     * Replaces all fields, returns 404 for an unknown id and 409 if the new
+     * e-mail already belongs to another student.
+     */
+    public StudentResponse update(Long id, StudentRequest request) {
+        Student student = getStudent(id);
+        if (repository.existsByEmailIgnoreCaseAndIdNot(request.email(), id)) {
+            throw new DuplicateEmailException(request.email());
+        }
+        student.setFirstName(request.firstName().trim());
+        student.setLastName(request.lastName().trim());
+        student.setEmail(request.email().trim().toLowerCase());
+        student.setGroupName(request.groupName());
+        student.setCourse(request.course());
+        return StudentResponse.from(repository.saveAndFlush(student));
+    }
+
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new StudentNotFoundException(id);
