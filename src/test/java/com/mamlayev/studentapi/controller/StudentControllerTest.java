@@ -17,6 +17,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -86,6 +87,41 @@ class StudentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value((int) id))
                 .andExpect(jsonPath("$.email").value("mukhammed.mamlayev@example.com"));
+    }
+
+    @Test
+    void updatesStudent() throws Exception {
+        long id = createStudent("Mukhammed", "Mamlayev", "mukhammed.mamlayev@example.com");
+
+        mockMvc.perform(put("/api/students/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(new StudentRequest("Mukhammed", "Mamlayev",
+                                "m.mamlayev@example.com", "SE-2402", 3))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("m.mamlayev@example.com"))
+                .andExpect(jsonPath("$.groupName").value("SE-2402"))
+                .andExpect(jsonPath("$.course").value(3));
+    }
+
+    @Test
+    void updateOfNonexistentStudentReturns404() throws Exception {
+        mockMvc.perform(put("/api/students/{id}", 999999)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(new StudentRequest("Mukhammed", "Mamlayev",
+                                "mukhammed.mamlayev@example.com", null, 1))))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateRejectsEmailOfAnotherStudent() throws Exception {
+        long id = createStudent("Mukhammed", "Mamlayev", "mukhammed.mamlayev@example.com");
+        createStudent("Aigerim", "Nurlanova", "aigerim.nurlanova@example.com");
+
+        mockMvc.perform(put("/api/students/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(new StudentRequest("Mukhammed", "Mamlayev",
+                                "aigerim.nurlanova@example.com", null, 1))))
+                .andExpect(status().isConflict());
     }
 
     @Test
