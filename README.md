@@ -84,3 +84,4 @@ docker compose -f jenkins/docker-compose.jenkins.yml up -d --build
 `.env` holds real passwords and is excluded by `.gitignore`; only `.env.example`
 with placeholder values is committed. Jenkins keeps the GitHub token in
 Jenkins Credentials, never in the repository.
+- Automated build check by Mukhammed Mamlayev
