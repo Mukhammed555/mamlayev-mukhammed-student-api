@@ -21,7 +21,7 @@ class InfoControllerTest {
     void infoEndpointShowsStudentName() throws Exception {
         mockMvc.perform(get("/api/info"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.student").value("Asan Abai")) // CONTROLLED ERROR: wrong expected name
+                .andExpect(jsonPath("$.student").value("Mukhammed Mamlayev"))
                 .andExpect(jsonPath("$.application").value("mamlayev-mukhammed-student-api"));
     }
 }
