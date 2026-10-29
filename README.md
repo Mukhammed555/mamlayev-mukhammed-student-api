@@ -85,3 +85,4 @@ docker compose -f jenkins/docker-compose.jenkins.yml up -d --build
 with placeholder values is committed. Jenkins keeps the GitHub token in
 Jenkins Credentials, never in the repository.
 - Automated build check by Mukhammed Mamlayev
+- CI is triggered automatically by SCM polling
